@@ -18,10 +18,10 @@ import matplotlib.pyplot as plt
 
 row_mark = 225
 batch_size = 1
-time_step = 1
+time_step = 10
 lstm_h_dim = 8
 z_dim = 4
-epoch_num = 32
+epoch_num = 300
 threshold = 50
 alpha = 0.8
 beta = 0.2
