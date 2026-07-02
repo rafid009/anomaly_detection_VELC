@@ -5,7 +5,7 @@ np.random.seed(0)
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow as tf
 tf.random.set_seed(0)
 from tensorflow import keras, data
