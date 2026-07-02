@@ -313,15 +313,17 @@ def plot_anomaly_test_score(df_anomaly):
 def save_model(model):
     with open(model_dir + 'lstm_vae.json', 'w') as f:
         f.write(model.to_json())
-    model.save_weights(model_dir + 'lstm_vae_ckpt')
+    model.save_weights(model_dir + 'lstm_vae_ckpt.weights.h5')
 
 
 def load_model():
     lstm_vae_obj = {'Encoder': Encoder, 'Decoder': Decoder, 'Sampling': Sampling}
     with keras.utils.custom_object_scope(lstm_vae_obj):
-        with open(model_dir + 'lstm_vae.json', 'r'):
-            model = keras.models.model_from_json(model_dir + 'lstm_vae.json')
-        model.load_weights(model_dir + 'lstem_vae_ckpt')
+        # with open(model_dir + 'lstm_vae.json', 'r'):
+        #     model = keras.models.model_from_json(model_dir + 'lstm_vae.json')
+        with open(model_dir + 'lstm_vae.json', 'r') as f:
+            model = keras.models.model_from_json(f.read())
+        model.load_weights(model_dir + 'lstm_vae_ckpt.weights.h5')
     return model
 
 
