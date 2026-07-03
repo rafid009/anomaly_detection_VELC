@@ -177,6 +177,7 @@ class ConstraintNet(keras.Model):
         w_dash = tf.multiply(w, mask)
         print('w_dash: ', w_dash.shape)
         z_dash = tf.linalg.matmul(w_dash, c_mat)
+        print('z_dash: ', z_dash.shape)
         z_dash = tf.squeeze(z_dash, axis=1)
         return z_dash
 
