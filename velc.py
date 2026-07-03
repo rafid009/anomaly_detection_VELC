@@ -17,9 +17,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 row_mark = 225
-batch_size = 64
+batch_size = 8
 time_step = 60
-lstm_h_dim = 8
+lstm_h_dim = 64
 z_dim = 4
 epoch_num = 300
 threshold = 50
@@ -175,6 +175,7 @@ class ConstraintNet(keras.Model):
         print('thres: ', thres.shape)   
         mask = tf.cast(w > thres, dtype=tf.float32)
         w_dash = tf.multiply(w, mask)
+        print('w_dash: ', w_dash.shape)
         z_dash = tf.linalg.matmul(w_dash, c_mat)
         z_dash = tf.squeeze(z_dash, axis=1)
         return z_dash
