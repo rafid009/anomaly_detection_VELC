@@ -17,7 +17,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 row_mark = 225
-batch_size = 8
+batch_size = 64
 time_step = 60
 lstm_h_dim = 8
 z_dim = 4
@@ -339,23 +339,23 @@ def normalize_data(train_X, test_X):
     return train_scaled, test_scaled
 
 def main():
-    try:
-        dataset = pd.read_csv("./dataset/Bearing_dataset.csv")
-        print("Dataset shape: ", dataset.shape)
-    except Exception:
-        print("Dataset not found")
+    # try:
+    #     dataset = pd.read_csv("./dataset/Bearing_dataset.csv")
+    #     print("Dataset shape: ", dataset.shape)
+    # except Exception:
+    #     print("Dataset not found")
 
-    all_df = pd.DataFrame(dataset)
-    train_scaled, test_scaled = split_normalize_data(all_df)
-    x_dim = train_scaled.shape[1]
-    print("train and test data shape after scaling: ", train_scaled.shape, test_scaled.shape)
+    # all_df = pd.DataFrame(dataset)
+    # train_scaled, test_scaled = split_normalize_data(all_df)
+    # x_dim = train_scaled.shape[1]
+    # print("train and test data shape after scaling: ", train_scaled.shape, test_scaled.shape)
 
     data_folder = "./data/synth"
     train_X = np.load(f"{data_folder}/X_train_8.0.npy") # reshape(train_scaled)
     test_X = np.load(f"{data_folder}/X_test_8.0.npy") # reshape(test_scaled)
 
     train_X, test_X = normalize_data(train_X, test_X)
-    
+
     opt = keras.optimizers.Adam(learning_rate, epsilon=1e-6, amsgrad=True)
 
     if mode == "train":
