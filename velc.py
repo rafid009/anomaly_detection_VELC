@@ -17,8 +17,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 row_mark = 225
-batch_size = 1
-time_step = 10
+batch_size = 8
+time_step = 60
 lstm_h_dim = 8
 z_dim = 4
 epoch_num = 300
@@ -326,6 +326,17 @@ def load_model():
         model.load_weights(model_dir + 'lstm_vae_ckpt.weights.h5')
     return model
 
+def normalize_data(train_X, test_X):
+    B, L, K = train_X.shape
+    train_X = train_X.reshape(B * L, K)
+    test_X = test_X.reshape(-1, test_X.shape[2])
+    scaler = MinMaxScaler()
+    scaler.fit(train_X)
+    train_scaled = scaler.transform(train_X)
+    test_scaled = scaler.transform(test_X)
+    train_scaled = train_scaled.reshape(B, L, K)
+    test_scaled = test_scaled.reshape(-1, L, K)
+    return train_scaled, test_scaled
 
 def main():
     try:
@@ -339,9 +350,12 @@ def main():
     x_dim = train_scaled.shape[1]
     print("train and test data shape after scaling: ", train_scaled.shape, test_scaled.shape)
 
-    train_X = reshape(train_scaled)
-    test_X = reshape(test_scaled)
+    data_folder = "./data/synth"
+    train_X = np.load(f"{data_folder}/X_train_8.0.npy") # reshape(train_scaled)
+    test_X = np.load(f"{data_folder}/X_test_8.0.npy") # reshape(test_scaled)
 
+    train_X, test_X = normalize_data(train_X, test_X)
+    
     opt = keras.optimizers.Adam(learning_rate, epsilon=1e-6, amsgrad=True)
 
     if mode == "train":
