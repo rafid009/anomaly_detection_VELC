@@ -154,18 +154,25 @@ class ConstraintNet(keras.Model):
         self.layer1 = layers.Dense(8, input_dim=x_dim, activation='relu')
         self.layer2 = layers.Dense(16, activation='relu')
         self.out = layers.Dense(z_dim * N, activation='relu')
-        self.reshape = layers.Reshape((N, z_dim))
+        self.reshape = layers.Reshape((time_step * N, z_dim))
 
         self.N = N
         self.z_dim = z_dim
 
     def call(self, inputs, z):
+        print('inputs: ', inputs.shape)
         h = self.layer1(inputs)
+        print('h: ', h.shape)
         h = self.layer2(h)
+        print('h after layer2: ', h.shape)
         out = self.out(h)
+        print('out: ', out.shape)
         c_mat = self.reshape(out)
+        print('c_mat: ', c_mat.shape)
         w = tf.matmul(z, c_mat, transpose_b=True)
+        print('w: ', w.shape)
         thres = tf.constant(w_thres, shape=w.shape)
+        print('thres: ', thres.shape)   
         mask = tf.cast(w > thres, dtype=tf.float32)
         w_dash = tf.multiply(w, mask)
         z_dash = tf.linalg.matmul(w_dash, c_mat)
