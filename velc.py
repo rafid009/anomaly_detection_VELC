@@ -161,6 +161,7 @@ class ConstraintNet(keras.Model):
 
     def call(self, inputs, z):
         print('inputs: ', inputs.shape)
+        print('z: ', z.shape)
         h = self.layer1(inputs)
         print('h: ', h.shape)
         h = self.layer2(h)
