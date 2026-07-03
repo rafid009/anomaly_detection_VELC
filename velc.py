@@ -355,6 +355,7 @@ def main():
     test_X = np.load(f"{data_folder}/X_test_8.0.npy") # reshape(test_scaled)
 
     train_X, test_X = normalize_data(train_X, test_X)
+    x_dim = train_X.shape[2]
 
     opt = keras.optimizers.Adam(learning_rate, epsilon=1e-6, amsgrad=True)
 
